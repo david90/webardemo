@@ -15,7 +15,7 @@
  */
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="/manifest">
 <head>
   <title>three.ar.js - Boilerplate</title>
   <meta charset="utf-8">
@@ -66,7 +66,7 @@
 </head>
 <body>
 <div id="info">
-    <span class="title">Boilerplate scene</span><br/>
+    <span class="title">Minecraft scene</span><br/>
     <span class="links">
       <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a> -
       <a href="https://developers.google.com/ar/develop/web/getting-started#examples">examples</a>
@@ -75,14 +75,27 @@
 <script src="third_party/three.js/three.js"></script>
 <script src="third_party/three.js/VRControls.js"></script>
 <script src="dist/three.ar.js"></script>
+<script src="js/ImprovedNoise.js"></script>
+<script src="js/Detector.js"></script>
 <script>
 
 var vrDisplay, vrControls, arView;
 var canvas, camera, scene, renderer;
-var BOX_DISTANCE = 5;
+var BOX_DISTANCE = 2;
 var BOX_SIZE = 0.25;
-var BOX_QUANTITY = 50;
+var BOX_QUANTITY = 10;
 var boxesAdded = false;
+
+var raycaster, mouse, plane;
+var startPos, endPos;
+
+var meshes;
+
+var worldWidth = 128, worldDepth = 128,
+worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2,
+data = generateHeight( worldWidth, worldDepth);
+
+var clock = new THREE.Clock();
 
 /**
  * Use the `getARDisplay()` utility to leverage the WebVR API
@@ -100,16 +113,54 @@ THREE.ARUtils.getARDisplay().then(function (display) {
 });
 
 
+function onClick (event) {
+
+
+   if ('ontouchstart' in window) {
+      console.log(event.originalEvent.touches);
+      var cx = event.originalEvent.changedTouches[0].clientX;
+      var cy = event.originalEvent.changedTouches[0].clientY;
+    } else {
+      var cx = event.clientX;
+      var cy = event.clientY;
+    }
+    endPos.x = (cx / window.innerWidth) * 2 - 1;
+    endPos.y = -(cy / window.innerHeight) * 2 + 1;
+    raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(endPos, camera);
+
+
+  var geometry = new THREE.BoxGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+    // var material = new THREE.MeshNormalMaterial();
+
+    var texture = new THREE.TextureLoader().load('textures/minecraft/atlas.png');
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+    var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({map: texture}));
+
+    plane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0);
+    
+    mesh.position.x = result.x;
+    mesh.position.y = result.y;
+    mesh.position.z = result.z;
+    mesh.userData.dx = endPos.x - startPos.x;
+    mesh.userData.dy = endPos.y - startPos.y;
+    meshes.push(mesh);
+    scene.add(mesh);
+}
+
 
 function init() {
   // Setup the three.js rendering environment
-  renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer = new THREE.WebGLRenderer({ alpha: true }); // Must be true
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.autoClear = false;
   canvas = renderer.domElement;
   document.body.appendChild(canvas);
   scene = new THREE.Scene();
+  meshes = [];
 
   // Creating the ARView, which is the object that handles
   // the rendering of the camera stream behind the three.js
@@ -134,6 +185,7 @@ function init() {
   // real world and virtual world in sync.
   vrControls = new THREE.VRControls(camera);
 
+  showWorld();
   // Bind our event handlers
   window.addEventListener('resize', onWindowResize, false);
 
@@ -164,8 +216,23 @@ function update() {
   // information applied to our camera (it can take a few seconds),
   // and the camera's Y position is not undefined or 0, create boxes
   if (!boxesAdded && !camera.position.y) {
-    addBoxes();
+   // addBoxes();
+    showWorld();
   }
+
+
+  // Throw
+  for (var i = 0; i < meshes.length; i++) {
+    var mesh = meshes[i];
+    mesh.position.z -= 20;
+    mesh.userData.dy -= 0.03;
+    mesh.position.x += mesh.userData.dx * 20;
+    mesh.position.y += mesh.userData.dy * 20;
+  }
+
+
+
+
 
   // Render our three.js virtual scene
   renderer.clearDepth();
@@ -196,8 +263,13 @@ function addBoxes () {
   for (var i = 0; i < BOX_QUANTITY; i++) {
     var angle = Math.PI * 2 * (i / BOX_QUANTITY);
     var geometry = new THREE.BoxGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE);
-    var material = new THREE.MeshNormalMaterial();
-    var cube = new THREE.Mesh(geometry, material);
+    // var material = new THREE.MeshNormalMaterial();
+
+    var texture = new THREE.TextureLoader().load('textures/minecraft/atlas.png');
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+    var cube = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({map: texture}));
     cube.position.set(Math.cos(angle) * BOX_DISTANCE, camera.position.y - 0.25, Math.sin(angle) * BOX_DISTANCE);
     scene.add(cube);
   }
@@ -205,6 +277,105 @@ function addBoxes () {
   // Flip this switch so that we only perform this once
   boxesAdded = true;
 }
+
+function generateHeight( width, height ) {
+  var data = [], perlin = new ImprovedNoise(),
+  size = width * height, quality = 2, z = Math.random() * 100;
+  for (var j = 0; j < 4; j ++) {
+    if (j === 0 ) for ( var i = 0; i < size; i ++) data[ i ] = 0;
+    for (var i = 0; i < size; i ++) {
+      var x = i % width, y = (i / width) | 0;
+      data[i] += perlin.noise(x / quality, y / quality, z) * quality;
+    }
+    quality *= 4;
+  }
+  return data;
+}
+
+function getY( x, z ) {
+  return (data[x + z * worldWidth] * 0.2 ) | 0;
+}
+
+function showWorld() {
+  var matrix = new THREE.Matrix4();
+  var pxGeometry = new THREE.PlaneBufferGeometry( 100, 100 );
+  pxGeometry.attributes.uv.array[ 1 ] = 0.5;
+  pxGeometry.attributes.uv.array[ 3 ] = 0.5;
+  pxGeometry.rotateY( Math.PI / 2 );
+  pxGeometry.translate( 50, 0, 0 );
+  var nxGeometry = new THREE.PlaneBufferGeometry( 100, 100 );
+  nxGeometry.attributes.uv.array[ 1 ] = 0.5;
+  nxGeometry.attributes.uv.array[ 3 ] = 0.5;
+  nxGeometry.rotateY( - Math.PI / 2 );
+  nxGeometry.translate( - 50, 0, 0 );
+  var pyGeometry = new THREE.PlaneBufferGeometry( 100, 100 );
+  pyGeometry.attributes.uv.array[ 5 ] = 0.5;
+  pyGeometry.attributes.uv.array[ 7 ] = 0.5;
+  pyGeometry.rotateX( - Math.PI / 2 );
+  pyGeometry.translate( 0, 50, 0 );
+  var pzGeometry = new THREE.PlaneBufferGeometry( 100, 100 );
+  pzGeometry.attributes.uv.array[ 1 ] = 0.5;
+  pzGeometry.attributes.uv.array[ 3 ] = 0.5;
+  pzGeometry.translate( 0, 0, 50 );
+  var nzGeometry = new THREE.PlaneBufferGeometry( 100, 100 );
+  nzGeometry.attributes.uv.array[ 1 ] = 0.5;
+  nzGeometry.attributes.uv.array[ 3 ] = 0.5;
+  nzGeometry.rotateY( Math.PI );
+  nzGeometry.translate( 0, 0, -50 );
+  //
+  // BufferGeometry cannot be merged yet.
+  var tmpGeometry = new THREE.Geometry();
+  var pxTmpGeometry = new THREE.Geometry().fromBufferGeometry( pxGeometry );
+  var nxTmpGeometry = new THREE.Geometry().fromBufferGeometry( nxGeometry );
+  var pyTmpGeometry = new THREE.Geometry().fromBufferGeometry( pyGeometry );
+  var pzTmpGeometry = new THREE.Geometry().fromBufferGeometry( pzGeometry );
+  var nzTmpGeometry = new THREE.Geometry().fromBufferGeometry( nzGeometry );
+  for ( var z = 0; z < worldDepth; z ++ ) {
+    for ( var x = 0; x < worldWidth; x ++ ) {
+      var h = getY( x, z );
+      matrix.makeTranslation(
+        x * 100 - worldHalfWidth * 100,
+        h * 100,
+        z * 100 - worldHalfDepth * 100
+      );
+      var px = getY( x + 1, z );
+      var nx = getY( x - 1, z );
+      var pz = getY( x, z + 1 );
+      var nz = getY( x, z - 1 );
+      tmpGeometry.merge( pyTmpGeometry, matrix );
+      if ( ( px !== h && px !== h + 1 ) || x === 0 ) {
+        tmpGeometry.merge( pxTmpGeometry, matrix );
+      }
+      if ( ( nx !== h && nx !== h + 1 ) || x === worldWidth - 1 ) {
+        tmpGeometry.merge( nxTmpGeometry, matrix );
+      }
+      if ( ( pz !== h && pz !== h + 1 ) || z === worldDepth - 1 ) {
+        tmpGeometry.merge( pzTmpGeometry, matrix );
+      }
+      if ( ( nz !== h && nz !== h + 1 ) || z === 0 ) {
+        tmpGeometry.merge( nzTmpGeometry, matrix );
+      }
+    }
+  }
+  var geometry = new THREE.BufferGeometry().fromGeometry( tmpGeometry );
+  geometry.computeBoundingSphere();
+
+  var texture = new THREE.TextureLoader().load( 'textures/minecraft/atlas.png' );
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.LinearMipMapLinearFilter;
+  var mesh = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { map: texture } ) );
+  scene.add(mesh);
+
+  var ambientLight = new THREE.AmbientLight( 0xcccccc );
+  scene.add( ambientLight );
+  var directionalLight = new THREE.DirectionalLight( 0xcccccc, 2 );
+  directionalLight.position.set( 1, 1, 0.5 ).normalize();
+  scene.add( directionalLight );
+
+  boxesAdded = true;
+}
+
+canvas.addEventListener('touchstart', onClick, false);
 </script>
 </body>
 </html>

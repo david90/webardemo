@@ -1,0 +1,33 @@
+CACHE MANIFEST
+# This is a comment.
+# Cache manifest version 0.0.1
+# If you change the version number in this comment,
+# the cache manifest is no longer byte-for-byte
+# identical.
+ 
+index.html
+js/Dector.js
+js/ImproveNoise.js
+dist/three.ar.js
+textures/minecraft/atlas.png
+textures/minecraft/dirt.png
+textures/minecraft/grass.png
+textures/minecraft/grass_dirt.png
+third_party/dat.gui/dat.gui.js
+third_party/three.js/three.js
+third_party/three.js/CSS3DRenderer.js
+third_party/three.js/MTLoader.js
+third_party/three.js/OBJLoader.js
+third_party/three.js/VRControls.js
+ 
+NETWORK:
+# All URLs that start with the following lines
+# are whitelisted.
+
+ 
+CACHE:
+# Additional items to cache.
+
+ 
+FALLBACK:
+
