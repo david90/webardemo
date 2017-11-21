@@ -152,12 +152,12 @@ function init() {
   // real world and virtual world in sync.
   vrControls = new THREE.VRControls(camera);
 
-  var light = new THREE.DirectionalLight( 0xefefff, 0.5 );
-  light.position.set( 1, 1, 1 ).normalize();
-  scene.add( light );
-  var light = new THREE.DirectionalLight( 0xffefef, 0.5 );
-  light.position.set( -1, -1, -1 ).normalize();
-  scene.add( light );
+  // var light = new THREE.DirectionalLight( 0xefefff, 0.5 );
+  // light.position.set( 1, 1, 1 ).normalize();
+  // scene.add( light );
+  // var light = new THREE.DirectionalLight( 0xffefef, 0.5 );
+  // light.position.set( -1, -1, -1 ).normalize();
+  // scene.add( light );
 
   loadFBX();
 
@@ -195,7 +195,7 @@ function loadFBX() {
     var action = myObject.mixer.clipAction( myObject.animations[ 0 ] );
     action.play();
 
-    myObject.scale.set( 0.012, 0.012, 0.012 );
+    myObject.scale.set( 0.015, 0.015, 0.015 );
     scene.add( myObject );
   }, onProgress, onError );
 }
