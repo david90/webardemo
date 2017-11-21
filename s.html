@@ -1,3 +1,5 @@
+<!-- Spwarn object at position ->
+
 <!--
 /*
  * Copyright 2017 Google Inc. All Rights Reserved.
@@ -183,46 +185,46 @@ function init() {
 
   scene.add(cube);
 
-  // // instantiate a loader
+  // instantiate a loader
 
-  //   var objLoader = new THREE.OBJLoader();
+    var objLoader = new THREE.OBJLoader();
 
-  //   objLoader.setPath('models/');
-  //   objLoader.load('Volcano.obj', function ( object ) {
-  //       volcano = object
+    objLoader.setPath('models/');
+    objLoader.load('Volcano.obj', function ( object ) {
+        volcano = object
 
-  //       volcano.traverse( function (child) {
-  //           if ( child instanceof THREE.Mesh ) {
-  //               child.material.map = THREE.ImageUtils.loadTexture( 'models/Volcano.png');
-  //             child.material.map.needsUpdate = true;
-  //           }
-  //       });
-  //       scene.add( volcano );
-  //       volcano.position.set(10000,10000,10000);
-  //       volcano.scale.x=0.005;
-  //       volcano.scale.y=0.005;
-  //       volcano.scale.z=0.005;
+        volcano.traverse( function (child) {
+            if ( child instanceof THREE.Mesh ) {
+                child.material.map = THREE.ImageUtils.loadTexture( 'models/Volcano.png');
+              child.material.map.needsUpdate = true;
+            }
+        });
+        scene.add( volcano );
+        volcano.position.set(10000,10000,10000);
+        volcano.scale.x=0.005;
+        volcano.scale.y=0.005;
+        volcano.scale.z=0.005;
 
-  //       var ambient = new THREE.AmbientLight( 0x333333 );
-  //       scene.add( ambient );
+        var ambient = new THREE.AmbientLight( 0x333333 );
+        scene.add( ambient );
 
-  //       var directionalLight = new THREE.DirectionalLight( 0xffffff );
-  //       directionalLight.position.set( 1, 1, 0.5 );
-  //       scene.add( directionalLight );
-  //       renderer.render( scene, camera );
+        var directionalLight = new THREE.DirectionalLight( 0xffffff );
+        directionalLight.position.set( 1, 1, 0.5 );
+        scene.add( directionalLight );
+        renderer.render( scene, camera );
 
-  //       console.log( 'OK' );
-  //     },
-  //     // called when loading is in progresses
-  //     function ( xhr ) {
+        console.log( 'OK' );
+      },
+      // called when loading is in progresses
+      function ( xhr ) {
 
-  //       console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
-  //     },
-  //     // called when loading has errors
-  //     function ( error ) {
-  //       console.log( 'An error happened' );
-  //     });
+      },
+      // called when loading has errors
+      function ( error ) {
+        console.log( 'An error happened' );
+      });
 
 
   // Bind our event handlers
@@ -299,19 +301,19 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
-    THREE.ARUtils.placeObjectAtHit(cube,  // The object to place
-                                   hit,   // The VRHit object to move the cube to
-                                   1,     // Easing value from 0 to 1; we want to move
-                                          // the cube directly to the hit position
-                                   true); // Whether or not we also apply orientation
+    // THREE.ARUtils.placeObjectAtHit(cube,  // The object to place
+    //                                hit,   // The VRHit object to move the cube to
+    //                                1,     // Easing value from 0 to 1; we want to move
+    //                                       // the cube directly to the hit position
+    //                                true); // Whether or not we also apply orientation
 
 
-  // THREE.ARUtils.placeObjectAtHit(volcano,  // The object to place
-  //                                    hit,   // The VRHit object to move the cube to
-  //                                    1,     // Easing value from 0 to 1; we want to move
-  //                                           // the cube directly to the hit position
-  //                                    true); // Whether or not we also apply orientation
-  // renderer.render( scene, camera );
+  THREE.ARUtils.placeObjectAtHit(volcano,  // The object to place
+                                     hit,   // The VRHit object to move the cube to
+                                     1,     // Easing value from 0 to 1; we want to move
+                                            // the cube directly to the hit position
+                                     true); // Whether or not we also apply orientation
+  renderer.render( scene, camera );
   }
 
 }
