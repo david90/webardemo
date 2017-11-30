@@ -279,6 +279,7 @@ function onClick (e) {
 
   var cloneObject = myObject.clone();
   scene.add(cloneObject);
+  cloneObject.position.copy(myObject.position);
 
 
   THREE.ARUtils.placeObjectAtHit(cloneObject,  // The object to place
