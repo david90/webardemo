@@ -191,7 +191,7 @@ function loadFBX() {
 
 
   var loader = new THREE.FBXLoader( manager );
-  loader.load( 'models/fbx/WaveHipHopDance.fbx', function( object ) {
+  loader.load( 'models/fbx/breakdance_ben.fbx', function( object ) {
     myObject = object
     myObject.mixer = new THREE.AnimationMixer( myObject );
     mixers.push( myObject.mixer );
@@ -252,8 +252,6 @@ function onWindowResize () {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
-
 
 function onClick (e) {
   // If we don't have a touches object, abort
