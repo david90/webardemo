@@ -93,7 +93,6 @@ var myObject , mixer;
 var mixers = [];
 
 var clock = new THREE.Clock();
-var arDebug;
 
 /**
  * Use the `getARDisplay()` utility to leverage the WebVR API
@@ -121,7 +120,7 @@ function init() {
   scene = new THREE.Scene();
 
   // Turn on the debugging panel
-  arDebug = new THREE.ARDebug(vrDisplay, scene, {
+  var arDebug = new THREE.ARDebug(vrDisplay, scene, {
     showLastHit: true,
     showPoseStatus: true,
     showPlanes: true,
