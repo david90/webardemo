@@ -282,6 +282,14 @@ function onClick (e) {
                                      true); // Whether or not we also apply orientation
   renderer.render( scene, camera );
   }
+
+  var debugPannel = THREE.ARDebug#getElement();
+
+  var para = document.createElement("P");                       // Create a <p> node
+  var t = document.createTextNode(myObject.position); 
+  para.appendChild(t);
+  debugPannel.appendChild(para);
+
 }
 
 
