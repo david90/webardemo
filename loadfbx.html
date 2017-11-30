@@ -197,7 +197,7 @@ function loadFBX() {
     mixers.push( myObject.mixer );
     var action = myObject.mixer.clipAction( myObject.animations[ 0 ] );
     action.play();
-    myObject.position(1,1,1);
+    myObject.position.set(1,1,1);
     myObject.scale.set( 0.004, 0.004, 0.004);
     scene.add( myObject );
   }, onProgress, onError );
