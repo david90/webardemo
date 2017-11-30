@@ -152,11 +152,14 @@ function init() {
   // real world and virtual world in sync.
   vrControls = new THREE.VRControls(camera);
 
+  var ambientLight = new THREE.AmbientLight(0xffffff);
+  scene.add(ambientLight);
+
   var light = new THREE.DirectionalLight( 0xffffff, 0.6 );
-  light.position.set( 1, 1, 1 ).normalize();
+  light.position.set( 0.1, 0.1, 0.1 ).normalize();
   scene.add( light );
   var light = new THREE.DirectionalLight( 0xffffff, 0.6 );
-  light.position.set( -1, -1, -1 ).normalize();
+  light.position.set( -0.1, -0.1, -0.1 ).normalize();
   scene.add( light );
 
   loadFBX();
