@@ -278,9 +278,11 @@ function onClick (e) {
 
 
   var cloneObject = myObject.clone();
-  scene.add(cloneObject);
-  cloneObject.position.copy(myObject.position);
 
+
+  cloneObject.position(1,1,1);
+  cloneObject.scale.set( 0.004, 0.004, 0.004);
+  scene.add(cloneObject);
 
   THREE.ARUtils.placeObjectAtHit(cloneObject,  // The object to place
                                      hit,   // The VRHit object to move the cube to
