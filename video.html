@@ -96,6 +96,7 @@ var cube;
 var video, videoImage, videoImageContext, videoTexture;
 
 var volcano;
+var movieScreen;
 
 var colors = [
   new THREE.Color( 0xffffff ),
@@ -161,7 +162,7 @@ function loadVideo() {
   // the geometry on which the movie will be displayed;
   //    movie image will be scaled to fit these dimensions.
   var movieGeometry = new THREE.PlaneGeometry( 240, 100, 4, 4 );
-  var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
+  movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
   movieScreen.position.set(0,0,0);
   scene.add(movieScreen);
 }
@@ -241,7 +242,7 @@ function init() {
 
     objLoader.setPath('models/');
     objLoader.load('Volcano.obj', function ( object ) {
-        volcano = object
+        volcano = object;
 
         volcano.traverse( function (child) {
             if ( child instanceof THREE.Mesh ) {
