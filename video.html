@@ -158,7 +158,7 @@ function loadVideo() {
   videoTexture.minFilter = THREE.LinearFilter;
   videoTexture.magFilter = THREE.LinearFilter;
   
-  var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: false, side:THREE.DoubleSide } );
+  var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
   // the geometry on which the movie will be displayed;
   //    movie image will be scaled to fit these dimensions.
   var movieGeometry = new THREE.PlaneGeometry( 0.2, 0.2, 4, 4 );
@@ -390,6 +390,7 @@ function onClick (e) {
 
   renderer.render( scene, camera );
   video.currentTime = 0;
+  video.play();
   }
 
 }
