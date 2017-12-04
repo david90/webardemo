@@ -165,7 +165,6 @@ function loadVideo() {
 
   movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
   movieScreen.position.set(0,0,0);
-  movieScreen.rotation.set(new THREE.Vector3( 0, Math.PI / 2, 0));
   scene.add(movieScreen);
 }
 
@@ -386,7 +385,7 @@ function onClick (e) {
                                             // the cube directly to the hit position
                                      true); // Whether or not we also apply orientation
 
-  video.play();
+  movieScreen.rotation.set(new THREE.Vector3( 0, Math.PI / 2, 0));
 
   renderer.render( scene, camera );
   }
