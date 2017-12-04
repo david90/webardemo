@@ -133,6 +133,8 @@ function loadVideo() {
   
   // create the video element
   video = document.createElement( 'video' );
+  video.setAttribute("webkit-playsinline","true") 
+  video.setAttribute("playsinline","true");
   // video.id = 'video';
   // video.type = ' video/ogg; codecs="theora, vorbis" ';
   video.src = "videos/123.m4v";
@@ -148,8 +150,6 @@ function loadVideo() {
   // video = document.getElementById( 'myVideo' );
   
   videoImage = document.createElement( 'canvas' );
-  videoImage.setAttribute("webkit-playsinline","true") 
-  videoImage.setAttribute("playsinline","true");
   videoImage.width = 480;
   videoImage.height = 204;
   videoImageContext = videoImage.getContext( '2d' );
