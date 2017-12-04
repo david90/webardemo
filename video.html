@@ -302,6 +302,17 @@ function update() {
   // It allows to get the right pose synchronized with the right frame.
   arView.render();
 
+
+  // video
+
+  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+  {
+    videoImageContext.drawImage( video, 0, 0 );
+    if ( videoTexture ) 
+      videoTexture.needsUpdate = true;
+  }
+
+
   // Update our camera projection matrix in the event that
   // the near or far planes have updated
   camera.updateProjectionMatrix();
