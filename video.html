@@ -354,11 +354,11 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
-    // THREE.ARUtils.placeObjectAtHit(cube,  // The object to place
-    //                                hit,   // The VRHit object to move the cube to
-    //                                1,     // Easing value from 0 to 1; we want to move
-    //                                       // the cube directly to the hit position
-    //                                true); // Whether or not we also apply orientation
+    THREE.ARUtils.placeObjectAtHit(cube,  // The object to place
+                                   hit,   // The VRHit object to move the cube to
+                                   1,     // Easing value from 0 to 1; we want to move
+                                          // the cube directly to the hit position
+                                   true); // Whether or not we also apply orientation
 
 
   THREE.ARUtils.placeObjectAtHit(volcano,  // The object to place
@@ -367,11 +367,11 @@ function onClick (e) {
                                             // the cube directly to the hit position
                                      true); // Whether or not we also apply orientation
 
-  THREE.ARUtils.placeObjectAtHit(movieScreen,  // The object to place
-                                     hit,   // The VRHit object to move the cube to
-                                     1,     // Easing value from 0 to 1; we want to move
-                                            // the cube directly to the hit position
-                                     true); // Whether or not we also apply orientation
+  // THREE.ARUtils.placeObjectAtHit(movieScreen,  // The object to place
+  //                                    hit,   // The VRHit object to move the cube to
+  //                                    1,     // Easing value from 0 to 1; we want to move
+  //                                           // the cube directly to the hit position
+  //                                    true); // Whether or not we also apply orientation
 
   renderer.render( scene, camera );
   }
