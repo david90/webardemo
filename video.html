@@ -167,9 +167,7 @@ function loadVideo() {
 }
 
 function init() {
-  // Turn on the debugging panel
-  var arDebug = new THREE.ARDebug(vrDisplay);
-  document.body.appendChild(arDebug.getElement());
+
 
   // Setup the three.js rendering environment
   renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -179,6 +177,14 @@ function init() {
   canvas = renderer.domElement;
   document.body.appendChild(canvas);
   scene = new THREE.Scene();
+
+  // Turn on the debugging panel
+  var arDebug = new THREE.ARDebug(vrDisplay, scene, {
+    showLastHit: true,
+    showPoseStatus: true,
+    showPlanes: true,
+  });
+  document.body.appendChild(arDebug.getElement());
 
   // Creating the ARView, which is the object that handles
   // the rendering of the camera stream behind the three.js
