@@ -148,6 +148,8 @@ function loadVideo() {
   // video = document.getElementById( 'myVideo' );
   
   videoImage = document.createElement( 'canvas' );
+  videoImage.setAttribute("webkit-playsinline","true") 
+  videoImage.setAttribute("playsinline","true");
   videoImage.width = 480;
   videoImage.height = 204;
   videoImageContext = videoImage.getContext( '2d' );
