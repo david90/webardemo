@@ -163,7 +163,6 @@ function loadVideo() {
   //    movie image will be scaled to fit these dimensions.
   var movieGeometry = new THREE.PlaneGeometry( 0.2, 0.2, 4, 4 );
 
-  movieGeometry.rotateY(Math.Pi / 2.0);
   movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
   movieScreen.position.set(0,0,0);
   scene.add(movieScreen);
@@ -387,6 +386,7 @@ function onClick (e) {
                                      true); // Whether or not we also apply orientation
 
   // movieScreen.rotation.set(new THREE.Vector3( 0, Math.PI / 2, 0));
+  movieScreen.rotateY(Math.Pi / 2.0);
 
   renderer.render( scene, camera );
   video.currentTime = 0;
