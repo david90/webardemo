@@ -10,15 +10,15 @@ surfaces3.html
 
 CACHE:
 /favicon.ico
-js/*
-dist/*
-third_party/*
-textures/*
-models/*
+js/
+dist/
+third_party/
+textures/
+models/
 
 # Resources that require the user to be online.
 NETWORK:
-*
+
 
 # static.html will be served if main.py is inaccessible
 # offline.jpg will be served in place of all images in images/large/
