@@ -10,7 +10,6 @@ sac.html
 surfaces3.html
 
 CACHE:
-/favicon.ico
 js/Detector.js
 js/ImprovedNoise.js
 js/inflate.min.js
