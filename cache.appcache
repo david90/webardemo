@@ -2,6 +2,7 @@ CACHE MANIFEST
 # 2017-12-12
 
 # Explicitly cached 'master entries'.
+loadfbx
 loadfbx.html
 index.html
 s.html
@@ -10,15 +11,30 @@ surfaces3.html
 
 CACHE:
 /favicon.ico
-js/
-dist/
-third_party/
-textures/
-models/
+js/Detector.js
+js/ImprovedNoise.js
+js/inflate.min.js
+js/stats.min.js
+js/zlib.min.js
+
+dist/three.ar.js
+third_party/three.js/CSS3DRenderer.js
+third_party/three.js/FBXLoader.js
+third_party/three.js/MTLLoader.js
+third_party/three.js/OBJLoader.js
+third_party/three.js/three.js
+third_party/three.js/VRControls.js
+models/Volcano.mtl
+models/Volcano.obj
+models/Volcano.png
+models/horse.js
+models/fbx/breakdance_ben.fbx
+models/fbx/dancing_ben_v2.fbx
+models/fbx/WaveHipHopDance.fbx
 
 # Resources that require the user to be online.
 NETWORK:
-
+*
 
 # static.html will be served if main.py is inaccessible
 # offline.jpg will be served in place of all images in images/large/
